@@ -1,0 +1,19 @@
+# 施工规范审查 Agent 应用镜像。
+# 模型不在镜像内：容器通过 OLLAMA_BASE_URL 连接宿主机的 Ollama 服务。
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 先只拷 requirements 再装依赖：改代码时能命中 Docker 层缓存，不用重装依赖
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+COPY . .
+
+ENV IN_DOCKER=1 \
+    OLLAMA_BASE_URL=http://host.docker.internal:11434
+
+EXPOSE 7860
+
+CMD ["python", "app.py"]

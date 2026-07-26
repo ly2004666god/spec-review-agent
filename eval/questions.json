@@ -1,0 +1,65 @@
+{
+  "_说明": "评测集：针对已入库的 GB 50300-2013 和 JTG D60-2015。每题给出问题、期望关键词、期望条文号。运行 python eval/run_eval.py 自动评分。",
+  "questions": [
+    {
+      "id": 1,
+      "query": "3.0.2 条的内容是什么？",
+      "expect_keywords": ["监理"],
+      "expect_clause": "3.0.2"
+    },
+    {
+      "id": 2,
+      "query": "未实行监理的建筑工程，由谁履行监理职责？",
+      "expect_keywords": ["建设单位"],
+      "expect_clause": "3.0.2"
+    },
+    {
+      "id": 3,
+      "query": "检验批抽样样本应如何抽取？",
+      "expect_keywords": ["随机"],
+      "expect_clause": "3.0.9"
+    },
+    {
+      "id": 4,
+      "query": "施工现场质量管理应具备哪些制度？",
+      "expect_keywords": ["质量管理体系"],
+      "expect_clause": "3.0.1"
+    },
+    {
+      "id": 5,
+      "query": "分项工程可按什么划分？",
+      "expect_keywords": ["工种", "施工工艺"],
+      "expect_clause": "4.0.4"
+    },
+    {
+      "id": 6,
+      "query": "2.1.2 设计使用年限的定义是什么？",
+      "expect_keywords": ["大修", "年限"],
+      "expect_clause": "2.1.2"
+    },
+    {
+      "id": 7,
+      "query": "什么是承载能力极限状态？",
+      "expect_keywords": ["最大承载力"],
+      "expect_clause": "2.1.4"
+    },
+    {
+      "id": 8,
+      "query": "什么是永久作用？",
+      "expect_keywords": ["设计基准期", "平均值"],
+      "expect_clause": "2.1.9"
+    },
+    {
+      "id": 9,
+      "query": "公路桥涵应按照什么进行耐久性设计？",
+      "expect_keywords": ["设计使用年限", "环境"],
+      "expect_clause": "3.1.7"
+    },
+    {
+      "id": 10,
+      "query": "偶然作用的特点是什么？",
+      "expect_keywords": ["量值很大", "持续时间"],
+      "expect_clause": "2.1.11"
+    }
+  ]
+}

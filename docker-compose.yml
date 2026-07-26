@@ -1,0 +1,15 @@
+services:
+  spec-review-agent:
+    build: .
+    ports:
+      - "7860:7860"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    volumes:
+      # 向量库和上传数据放宿主机，容器重建也不丢
+      - ./vector_stores:/app/vector_stores
+      - ./data:/app/data
+    extra_hosts:
+      # Linux 服务器上没有 host.docker.internal，这行补上；Docker Desktop 则自带
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

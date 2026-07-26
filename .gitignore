@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# 向量库和数据（体积大；规范 PDF 有版权，不入库）
+vector_stores/
+data/
+*.pdf
+*.docx
+!docs/*.md
+
+# 本地产物
+*.log
+.DS_Store

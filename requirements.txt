@@ -1,0 +1,12 @@
+langchain>=1.0
+langchain-ollama
+langchain-community
+langchain-text-splitters
+langgraph
+faiss-cpu
+gradio
+PyMuPDF
+pdfplumber
+python-docx
+rapidocr-onnxruntime
+ollama

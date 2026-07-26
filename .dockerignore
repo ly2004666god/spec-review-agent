@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+vector_stores/
+data/
+.git/
+*.md
