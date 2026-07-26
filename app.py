@@ -112,6 +112,15 @@ def agent_review(user_input):
         return f"❌ 审查出错：{e}", ""
 
 
+def export_review_docx(report_md, user_input):
+    """把当前审查报告导出为 Word 文件，返回文件路径给下载组件。"""
+    from agent.report_export import export_report
+    if not report_md.strip() or report_md.startswith(("请输入", "❌", "（Agent")):
+        gr.Warning("请先完成一次审查，再导出报告。")
+        return None
+    return export_report(report_md, user_input)
+
+
 with gr.Blocks(title="施工规范审查 Agent") as demo:
     gr.Markdown("# 🏗️ 施工规范审查 Agent\n"
                 "多格式规范入库（自动 OCR）· 条文级检索 · Agent 智能审查")
@@ -151,6 +160,9 @@ with gr.Blocks(title="施工规范审查 Agent") as demo:
         review_btn = gr.Button("开始智能审查", variant="primary")
         review_output = gr.Markdown(label="审查报告")
         trace_output = gr.Textbox(label="Agent 工具调用轨迹（展示思考过程）", lines=8)
+        with gr.Row():
+            export_btn = gr.Button("📄 导出 Word 报告")
+            export_file = gr.File(label="下载报告", interactive=False)
 
     upload_btn.click(upload_spec, [file_input, name_input, code_input],
                      [upload_status, spec_table, spec_filter])
@@ -158,6 +170,7 @@ with gr.Blocks(title="施工规范审查 Agent") as demo:
                   [upload_status, spec_table, spec_filter])
     qa_btn.click(answer_question, [qa_input, spec_filter], [qa_output])
     review_btn.click(agent_review, [review_input], [review_output, trace_output])
+    export_btn.click(export_review_docx, [review_output, review_input], [export_file])
 
 if __name__ == "__main__":
     import os

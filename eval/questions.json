@@ -1,5 +1,5 @@
 {
-  "_说明": "评测集：针对已入库的 GB 50300-2013 和 JTG D60-2015。每题给出问题、期望关键词、期望条文号。运行 python eval/run_eval.py 自动评分。",
+  "_说明": "评测集：针对 GB 50300-2013（建筑工程施工质量验收统一标准）和 JTG D60-2015（公路桥涵设计通用规范）。题型覆盖：条文号直查、术语定义、程序性规定、自然语言问答。运行 python eval/run_eval.py 自动评分。",
   "questions": [
     {
       "id": 1,
@@ -33,33 +33,123 @@
     },
     {
       "id": 6,
+      "query": "什么是复验？",
+      "expect_keywords": ["施工现场", "试验室"],
+      "expect_clause": "2.0.5"
+    },
+    {
+      "id": 7,
+      "query": "什么是观感质量？",
+      "expect_keywords": ["观察", "外在"],
+      "expect_clause": "2.0.15"
+    },
+    {
+      "id": 8,
+      "query": "抽样方案的定义是什么？",
+      "expect_keywords": ["抽样数量", "方法"],
+      "expect_clause": "2.0.10"
+    },
+    {
+      "id": 9,
+      "query": "检验批的质量检验可选取哪些抽样方案？",
+      "expect_keywords": ["计量", "计数"],
+      "expect_clause": "3.0.8"
+    },
+    {
+      "id": 10,
+      "query": "分部工程应按什么原则划分？",
+      "expect_keywords": ["专业性质", "工程部位"],
+      "expect_clause": "4.0.3"
+    },
+    {
+      "id": 11,
+      "query": "单位工程应具备什么条件？",
+      "expect_keywords": ["独立", "使用功能"],
+      "expect_clause": "4.0.2"
+    },
+    {
+      "id": 12,
+      "query": "分项工程验收由谁组织？",
+      "expect_keywords": ["专业监理工程师", "施工单位"],
+      "expect_clause": "6.0.2"
+    },
+    {
+      "id": 13,
+      "query": "室外工程如何划分单位工程和分部工程？",
+      "expect_keywords": ["专业类别", "工程规模"],
+      "expect_clause": "4.0.8"
+    },
+    {
+      "id": 14,
+      "query": "建筑工程施工质量验收除本标准外还应符合什么？",
+      "expect_keywords": ["国家现行", "标准"],
+      "expect_clause": "1.0.3"
+    },
+    {
+      "id": 15,
       "query": "2.1.2 设计使用年限的定义是什么？",
       "expect_keywords": ["大修", "年限"],
       "expect_clause": "2.1.2"
     },
     {
-      "id": 7,
+      "id": 16,
       "query": "什么是承载能力极限状态？",
       "expect_keywords": ["最大承载力"],
       "expect_clause": "2.1.4"
     },
     {
-      "id": 8,
+      "id": 17,
       "query": "什么是永久作用？",
       "expect_keywords": ["设计基准期", "平均值"],
       "expect_clause": "2.1.9"
     },
     {
-      "id": 9,
+      "id": 18,
       "query": "公路桥涵应按照什么进行耐久性设计？",
       "expect_keywords": ["设计使用年限", "环境"],
       "expect_clause": "3.1.7"
     },
     {
-      "id": 10,
+      "id": 19,
       "query": "偶然作用的特点是什么？",
       "expect_keywords": ["量值很大", "持续时间"],
       "expect_clause": "2.1.11"
+    },
+    {
+      "id": 20,
+      "query": "什么是作用基本组合？",
+      "expect_keywords": ["承载能力极限状态", "永久作用"],
+      "expect_clause": "2.1.21"
+    },
+    {
+      "id": 21,
+      "query": "特大桥、大桥的桥位应如何选择？",
+      "expect_keywords": ["河道", "地质"],
+      "expect_clause": "3.2.1"
+    },
+    {
+      "id": 22,
+      "query": "桥下净空应根据什么确定？",
+      "expect_keywords": ["水位", "安全高度"],
+      "expect_clause": "3.4.3"
+    },
+    {
+      "id": 23,
+      "query": "小桥涵的河床整治有什么要求？",
+      "expect_keywords": ["进", "出口", "防冲"],
+      "expect_clause": "3.6.3"
+    },
+    {
+      "id": 24,
+      "query": "预加力在正常使用极限状态设计时如何计算？",
+      "expect_keywords": ["永久作用", "预应力损失"],
+      "expect_clause": "4.2.2"
+    },
+    {
+      "id": 25,
+      "query": "什么情况下可以不设置调治构造物？",
+      "expect_keywords": ["河滩流量", "15%"],
+      "expect_clause": "3.2.8"
     }
   ]
 }

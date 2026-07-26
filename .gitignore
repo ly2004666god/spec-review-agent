@@ -13,3 +13,4 @@ data/
 # 本地产物
 *.log
 .DS_Store
+reports/

@@ -14,7 +14,8 @@
 | 出处 | 无 | 回答标注《规范》编号、条文号、页码 |
 | 规范管理 | 单库混存 | 每规范独立库，可列表/删除/选范围 |
 | Agent | 无（固定流程） | **LangGraph ReAct Agent**，自主调用工具 |
-| 评测 | 无 | 自建评测集，量化检索命中率 |
+| 报告 | 网页文本 | 一键导出正式格式 **Word 审查报告** |
+| 评测 | 无 | 自建 25 题评测集，检索命中率 **100%**（bge-m3，基线 nomic-embed-text 为 50%） |
 
 ## 技术栈
 
@@ -65,6 +66,9 @@ store/manager.py     多规范向量库管理（registry.json 登记）
 retrieval/retriever.py  混合检索（条文号精确 + 向量语义）
 agent/tools.py       Agent 工具：检索规范 / 混凝土强度校核 / 钢筋强度查询
 agent/review_agent.py   LangGraph ReAct 审查 Agent
+agent/report_export.py  审查报告导出 Word
 app.py               Gradio 三页签界面
 eval/                评测集与评测脚本
+scripts/             维护脚本（换 embedding 后重建索引等）
+docs/                项目自述（设计决策与技术故事）
 ```
