@@ -112,6 +112,26 @@ def agent_review(user_input):
         return f"❌ 审查出错：{e}", ""
 
 
+def gen_jiaodi(process_name, params, selected_specs):
+    """技术交底页处理函数：检索规范 -> 生成六板块交底草稿。"""
+    if not process_name.strip():
+        return "请输入工序名称。", ""
+    from agent.jiaodi_generator import generate_jiaodi
+    spec_ids = [s.split(" | ")[0] for s in (selected_specs or [])] or None
+    draft, sources = generate_jiaodi(process_name.strip(), params.strip(), spec_ids)
+    src_display = f"**本次参考规范出处**\n{sources}" if sources else ""
+    return draft, src_display
+
+
+def export_jiaodi_docx(draft_md, process_name):
+    """把交底草稿导出为 Word。复用审查报告的导出逻辑。"""
+    from agent.report_export import export_report
+    if not draft_md.strip() or draft_md.startswith(("请输入", "⚠️", "❌")):
+        gr.Warning("请先生成一份交底草稿，再导出。")
+        return None
+    return export_report(draft_md, f"技术交底 - {process_name}")
+
+
 def export_review_docx(report_md, user_input):
     """把当前审查报告导出为 Word 文件，返回文件路径给下载组件。"""
     from agent.report_export import export_report
@@ -164,6 +184,25 @@ with gr.Blocks(title="施工规范审查 Agent") as demo:
             export_btn = gr.Button("📄 导出 Word 报告")
             export_file = gr.File(label="下载报告", interactive=False)
 
+    with gr.Tab("📝 技术交底"):
+        gr.Markdown("输入工序和关键参数，自动检索规范并生成结构化技术交底草稿"
+                    "（与规范审查共用同一知识库）。")
+        jd_specs = gr.CheckboxGroup(choices=_spec_choices(),
+                                    label="检索范围（不选=全部规范）")
+        with gr.Row():
+            with gr.Column():
+                jd_process = gr.Textbox(label="工序名称", placeholder="例如：钻孔灌注桩")
+                jd_params = gr.Textbox(label="工程参数", lines=3,
+                                       placeholder="例如：桩径1.2m，桩长约40m，共32根")
+                jd_btn = gr.Button("生成技术交底", variant="primary")
+                jd_sources = gr.Markdown(label="检索出处")
+            with gr.Column():
+                jd_draft = gr.Textbox(label="技术交底草稿", lines=26,
+                                      show_copy_button=True)
+        with gr.Row():
+            jd_export_btn = gr.Button("📄 导出 Word")
+            jd_export_file = gr.File(label="下载交底", interactive=False)
+
     upload_btn.click(upload_spec, [file_input, name_input, code_input],
                      [upload_status, spec_table, spec_filter])
     del_btn.click(delete_spec, [del_input],
@@ -171,6 +210,8 @@ with gr.Blocks(title="施工规范审查 Agent") as demo:
     qa_btn.click(answer_question, [qa_input, spec_filter], [qa_output])
     review_btn.click(agent_review, [review_input], [review_output, trace_output])
     export_btn.click(export_review_docx, [review_output, review_input], [export_file])
+    jd_btn.click(gen_jiaodi, [jd_process, jd_params, jd_specs], [jd_draft, jd_sources])
+    jd_export_btn.click(export_jiaodi_docx, [jd_draft, jd_process], [jd_export_file])
 
 if __name__ == "__main__":
     import os
