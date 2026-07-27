@@ -197,8 +197,7 @@ with gr.Blocks(title="施工规范审查 Agent") as demo:
                 jd_btn = gr.Button("生成技术交底", variant="primary")
                 jd_sources = gr.Markdown(label="检索出处")
             with gr.Column():
-                jd_draft = gr.Textbox(label="技术交底草稿", lines=26,
-                                      show_copy_button=True)
+                jd_draft = gr.Textbox(label="技术交底草稿", lines=26)
         with gr.Row():
             jd_export_btn = gr.Button("📄 导出 Word")
             jd_export_file = gr.File(label="下载交底", interactive=False)
