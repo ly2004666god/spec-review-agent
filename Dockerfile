@@ -4,6 +4,15 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# 最小系统依赖：
+#   libgomp1      — ONNX Runtime 并行推理需要（rapidocr/onnxruntime 运行时必须）
+#   libglib2.0-0  — 部分 PDF 图像处理库依赖
+# 注意：不装 libxcb/libGL，因为我们用 opencv-python-headless，无需图形界面库
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 # 先只拷 requirements 再装依赖：改代码时能命中 Docker 层缓存，不用重装依赖
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \

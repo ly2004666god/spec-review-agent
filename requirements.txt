@@ -8,5 +8,9 @@ gradio
 PyMuPDF
 pdfplumber
 python-docx
+# headless 版：专为服务器设计，不依赖 libxcb/libGL 等图形界面库
+# rapidocr-onnxruntime 会拉 opencv-python（完整版），在容器里会因缺系统库崩掉
+# 显式写 headless，pip 优先装它，覆盖掉完整版
+opencv-python-headless
 rapidocr-onnxruntime
 ollama
