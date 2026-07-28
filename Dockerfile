@@ -18,11 +18,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
     -i https://pypi.tuna.tsinghua.edu.cn/simple && \
     # rapidocr-onnxruntime 会把完整版 opencv-python 作为依赖拉进来
-    # 完整版在容器里需要 libxcb 等图形库，服务器没有就崩掉
-    # 这里强制卸载完整版，只保留 headless 版（功能完全一样，无图形界面依赖）
-    pip uninstall -y opencv-python || true && \
-    pip install --no-cache-dir opencv-python-headless \
-    -i https://pypi.tuna.tsinghua.edu.cn/simple
+    # 完整版需要 libxcb 等图形库，服务器容器没有就崩。
+    # requirements.txt 里已钉 opencv-python-headless==4.11.0.86，
+    # 这里只需要把完整版卸掉，headless 版已经装好了，不需要再装。
+    pip uninstall -y opencv-python || true
 
 COPY . .
 
