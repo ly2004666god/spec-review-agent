@@ -212,6 +212,15 @@ with gr.Blocks(title="施工规范审查 Agent") as demo:
     jd_btn.click(gen_jiaodi, [jd_process, jd_params, jd_specs], [jd_draft, jd_sources])
     jd_export_btn.click(export_jiaodi_docx, [jd_draft, jd_process], [jd_export_file])
 
+    # 动态加载：每次有用户打开页面时，重新读取 registry 刷新规范列表。
+    # 解决"容器重建后要重启才能看到规范"的问题——现在用户刷新浏览器就够了。
+    def _refresh_specs():
+        table = _registry_table()
+        choices = _spec_choices()
+        return table, gr.update(choices=choices), gr.update(choices=choices)
+
+    demo.load(fn=_refresh_specs, outputs=[spec_table, spec_filter, jd_specs])
+
 if __name__ == "__main__":
     import os
     if os.environ.get("IN_DOCKER"):
