@@ -203,23 +203,16 @@ with gr.Blocks(title="施工规范审查 Agent") as demo:
             jd_export_file = gr.File(label="下载交底", interactive=False)
 
     upload_btn.click(upload_spec, [file_input, name_input, code_input],
-                     [upload_status, spec_table, spec_filter])
+                     [upload_status, spec_table, spec_filter]
+    ).then(fn=lambda: gr.update(choices=_spec_choices()), outputs=[jd_specs])
     del_btn.click(delete_spec, [del_input],
-                  [upload_status, spec_table, spec_filter])
+                  [upload_status, spec_table, spec_filter]
+    ).then(fn=lambda: gr.update(choices=_spec_choices()), outputs=[jd_specs])
     qa_btn.click(answer_question, [qa_input, spec_filter], [qa_output])
     review_btn.click(agent_review, [review_input], [review_output, trace_output])
     export_btn.click(export_review_docx, [review_output, review_input], [export_file])
     jd_btn.click(gen_jiaodi, [jd_process, jd_params, jd_specs], [jd_draft, jd_sources])
     jd_export_btn.click(export_jiaodi_docx, [jd_draft, jd_process], [jd_export_file])
-
-    # 动态加载：每次有用户打开页面时，重新读取 registry 刷新规范列表。
-    # 解决"容器重建后要重启才能看到规范"的问题——现在用户刷新浏览器就够了。
-    def _refresh_specs():
-        table = _registry_table()
-        choices = _spec_choices()
-        return table, gr.update(choices=choices), gr.update(choices=choices)
-
-    demo.load(fn=_refresh_specs, outputs=[spec_table, spec_filter, jd_specs])
 
 if __name__ == "__main__":
     import os
