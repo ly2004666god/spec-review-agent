@@ -9,8 +9,8 @@ PyMuPDF
 pdfplumber
 python-docx
 # headless 版：专为服务器设计，不依赖 libxcb/libGL 等图形界面库
-# rapidocr-onnxruntime 会拉 opencv-python（完整版），在容器里会因缺系统库崩掉
-# 显式写 headless，pip 优先装它，覆盖掉完整版
-opencv-python-headless
+# 钉 4.11.0.86，和 site-inspector 一致，已验证可用
+# rapidocr-onnxruntime 会拉完整版 opencv-python，Dockerfile 里会强制替换为 headless
+opencv-python-headless==4.11.0.86
 rapidocr-onnxruntime
 ollama
