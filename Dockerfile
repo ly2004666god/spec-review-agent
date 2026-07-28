@@ -16,6 +16,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 先只拷 requirements 再装依赖：改代码时能命中 Docker 层缓存，不用重装依赖
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple && \
+    # rapidocr-onnxruntime 会把完整版 opencv-python 作为依赖拉进来
+    # 完整版在容器里需要 libxcb 等图形库，服务器没有就崩掉
+    # 这里强制卸载完整版，只保留 headless 版（功能完全一样，无图形界面依赖）
+    pip uninstall -y opencv-python || true && \
+    pip install --no-cache-dir opencv-python-headless \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 COPY . .
