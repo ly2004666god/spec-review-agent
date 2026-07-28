@@ -17,11 +17,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
     -i https://pypi.tuna.tsinghua.edu.cn/simple && \
-    # rapidocr-onnxruntime 会把完整版 opencv-python 作为依赖拉进来
-    # 完整版需要 libxcb 等图形库，服务器容器没有就崩。
-    # requirements.txt 里已钉 opencv-python-headless==4.11.0.86，
-    # 这里只需要把完整版卸掉，headless 版已经装好了，不需要再装。
-    pip uninstall -y opencv-python || true
+    # rapidocr-onnxruntime 会把 opencv 升级到 5.0，cv2 在那个版本里是残缺模块。
+    # 解法：装完所有依赖后，把两个 opencv 变体全卸掉，再强制装回 4.11.0.86 headless。
+    # 最后装的版本才是真正生效的版本——这是关键顺序。
+    pip uninstall -y opencv-python opencv-python-headless || true && \
+    pip install --no-cache-dir "opencv-python-headless==4.11.0.86" \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 COPY . .
 
